@@ -27,13 +27,11 @@ function output=primespiral(varargin)
 % Cardillo G. (2014) Primespiral: Play into the world of prime numbers!
 % http://www.mathworks.com/matlabcentral/fileexchange/46025
 
-defaultValue = 3571;
 p = inputParser;
-validation = @(x) isnumeric(x) && isscalar(x) && isreal (x) && isfinite(x) && (x > 0) && fix(x)==x;
-addOptional(p,'x',defaultValue,validation);
+addOptional(p,'x',3571,@(x) validateattributes(x,{'numeric'},{'scalar','real','finite','nonnan','positive','integer'}));
 parse(p,varargin{:});
 t=p.Results.x;
-clear p validation defaultValue
+clear p 
 
 spirals={'Ulam','Sacks','Vogel','Archimede'};
 type=listdlg('PromptString','Select a spiral:','ListSize',[300 150],...

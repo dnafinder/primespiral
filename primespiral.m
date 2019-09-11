@@ -1,28 +1,28 @@
 function output=primespiral(varargin)
-% PRIMESPIRAL Play into the world of prime numbers! 
-% Primespiral is a function to explore the distribution of prime numbers 
-% arranged into a spiral pattern. 
-% The well-known Ulam spiral and the variant developed by Robert Sacks, 
+% PRIMESPIRAL Play into the world of prime numbers!
+% Primespiral is a function to explore the distribution of prime numbers
+% arranged into a spiral pattern.
+% The well-known Ulam spiral and the variant developed by Robert Sacks,
 % the Sacks spiral, show interesting geometric patterns in the positions of primes.
-% 
+%
 % Syntax: primesout=primespiral(t)
-% 
+%
 %     Inputs:
 %           t - is an integer number. The spiral will be plotted between 0 and t
 %               If t is omitted, it will be set to 3571 (between 0 and 3571
 %               there are 500 prime numbers).
 %     Outputs:
 %           primesout - the primes of the choosed family, between 0 and t.
-% 
+%
 % The function will ask if you want to use the Ulam, Sacks, Vogel or Archimede spiral.
 % Then it will ask if you want to highlight a particular prime family.
-% 
-%     Outputs: 
+%
+%     Outputs:
 %           The primes of the family you choosed between 0 and t
-% 
+%
 %           Created by Giuseppe Cardillo
 %           giuseppe.cardillo-edta@poste.it
-% 
+%
 % To cite this file, this would be an appropriate format:
 % Cardillo G. (2014) Primespiral: Play into the world of prime numbers!
 % http://www.mathworks.com/matlabcentral/fileexchange/46025
@@ -31,15 +31,15 @@ p = inputParser;
 addOptional(p,'x',3571,@(x) validateattributes(x,{'numeric'},{'scalar','real','finite','nonnan','positive','integer'}));
 parse(p,varargin{:});
 t=p.Results.x;
-clear p 
+clear p
 
 spirals={'Ulam','Sacks','Vogel','Archimede'};
 type=listdlg('PromptString','Select a spiral:','ListSize',[300 150],...
     'Name','Disposable spirals', 'SelectionMode','single',...
-                      'ListString',spirals);
-if type==4 && t>500 
+    'ListString',spirals);
+if type==4 && t>500
     ButtonName = questdlg(sprintf('When natural numbers are > 541, this plot is a little bit confused.\n Do you want to scale down to 541?'), ...
-                         'Question', 'Yes', 'No', 'Yes');
+        'Question', 'Yes', 'No', 'Yes');
     if strcmp(ButtonName,'Yes')==1
         t=541;
     end
@@ -66,6 +66,7 @@ PrimesFamilies={'Only Primes',...
     'Palindromic primes',...
     'Super primes',...
     'Lucky primes'...
+    'Happy primes'...
     'Pythagorean primes (amenable primes)',...
     'Euler primes (n^2 + n + 41)',...
     'Mersenne primes',...
@@ -110,8 +111,8 @@ if ~isequal(spirals{type},'Sacks')
 end
 selected=listdlg('PromptString','Select a primes family:','ListSize',[300 400],...
     'Name','Disposable primes families', 'SelectionMode','single',...
-                      'ListString',PrimesFamilies);
-                  
+    'ListString',PrimesFamilies);
+
 NN=(1:1:t)'; %Natural numbers between 1 and t
 PrimesFlag=zeros(size(NN)); PrimesFlag(isprime(NN))=1;
 
@@ -130,56 +131,56 @@ switch PrimesFamilies{selected}
         txt={'Not primes','Primes','East axes of perfect squares n^2','North axes n(4n+1)',...
             'West axes of pronic number n(n+1)','South axes n(4n-1)'};
         description = {upper('Prime number'),'A prime number (or a prime) is a natural number greater than 1 that cannot be formed by multiplying two smaller natural numbers. A natural number greater than 1 that is not prime is called a composite number. For example, 5 is prime because the only ways of writing it as a product, 1 × 5 or 5 × 1, involve 5 itself. However, 6 is composite because it is the product of two numbers (2 × 3) that are both smaller than 6. Primes are central in number theory because of the fundamental theorem of arithmetic: every natural number greater than 1 is either a prime itself or can be factorized as a product of primes that is unique up to their order. There are infinitely many primes, as demonstrated by Euclid around 300 BC.'};
-    case 'Isolated primes' 
+    case 'Isolated primes'
         q=repmat(NN(PrimesFlag==1),1,3)+repmat([-2 0 2],length(NN(PrimesFlag==1)),1);
         primesout=q(sum(isprime(q),2)==1,2);
         PrimesFlag(primesout)=2;
         txt={'Not primes','Primes','Isolated primes'};
         description = {upper('Isolated primes'),'Primes p such that neither p-2 nor p+2 is primes.'};
     case 'Twin primes'
-        q=repmat(NN(PrimesFlag==1),1,2)+repmat([0 2],length(NN(PrimesFlag==1)),1); 
-        p=q(sum(isprime(q),2)==2); PrimesFlag(p)=2; PrimesFlag(p+2)=3; 
-        primesout=[p p+2];  
+        q=repmat(NN(PrimesFlag==1),1,2)+repmat([0 2],length(NN(PrimesFlag==1)),1);
+        p=q(sum(isprime(q),2)==2); PrimesFlag(p)=2; PrimesFlag(p+2)=3;
+        primesout=[p p+2];
         p=ismember(primesout(:,1),primesout(:,2));
-        PrimesFlag(p)=4; 
+        PrimesFlag(p)=4;
         txt={'Not primes','Primes','Twin primes 1st member',...
             'Twin primes 2nd member','Members of both columns'};
         description = {upper('Twin primes'),'Primes p such that p and p+2 are both primes.'};
-     case 'Cousin primes' 
-        q=repmat(NN(PrimesFlag==1),1,2)+repmat([0 4],length(NN(PrimesFlag==1)),1); 
-        p=q(sum(isprime(q),2)==2); PrimesFlag(p)=2; PrimesFlag(p+4)=3; 
-        primesout=[p p+4]; 
+    case 'Cousin primes'
+        q=repmat(NN(PrimesFlag==1),1,2)+repmat([0 4],length(NN(PrimesFlag==1)),1);
+        p=q(sum(isprime(q),2)==2); PrimesFlag(p)=2; PrimesFlag(p+4)=3;
+        primesout=[p p+4];
         p=ismember(primesout(:,1),primesout(:,2));
-        PrimesFlag(p)=4; 
+        PrimesFlag(p)=4;
         txt={'Not primes','Primes','Cousin primes 1st member',...
             'Cousin primes 2nd member','Members of both columns'};
         description = {upper('Cousin primes'),'Primes p such that p and p+4 are both primes.'};
-    case 'Sexy primes' 
-        q=repmat(NN(PrimesFlag==1),1,2)+repmat([0 6],length(NN(PrimesFlag==1)),1); 
-        p=q(sum(isprime(q),2)==2); PrimesFlag(p)=2; PrimesFlag(p+6)=3; 
+    case 'Sexy primes'
+        q=repmat(NN(PrimesFlag==1),1,2)+repmat([0 6],length(NN(PrimesFlag==1)),1);
+        p=q(sum(isprime(q),2)==2); PrimesFlag(p)=2; PrimesFlag(p+6)=3;
         primesout=[p p+6];
         p=ismember(primesout(:,1),primesout(:,2));
-        PrimesFlag(primesout(p))=4; 
+        PrimesFlag(primesout(p))=4;
         txt={'Not primes','Primes','Sexy primes 1st member',...
             'Sexy primes 2nd member','Members of both columns'};
         description = {upper('Sexy primes'),'Primes p such that p and p+6 are both primes.'};
-    case 'Primes triplets' 
+    case 'Primes triplets'
         L=length(NN(PrimesFlag==1));
-        q=repmat(NN(PrimesFlag==1),1,3)+repmat([0 2 6],L,1); 
+        q=repmat(NN(PrimesFlag==1),1,3)+repmat([0 2 6],L,1);
         l=isprime(q); p1=q(all(l,2),:);
-        q=repmat(NN(PrimesFlag==1),1,3)+repmat([0 4 6],L,1);  
+        q=repmat(NN(PrimesFlag==1),1,3)+repmat([0 4 6],L,1);
         l=isprime(q); p2=q(all(l,2),:);
         PrimesFlag(p1(:,1))=2; PrimesFlag(p1(:,2))=3; PrimesFlag(p1(:,3))=4;
-        PrimesFlag(p2(:,1))=2; PrimesFlag(p2(:,2))=3; PrimesFlag(p2(:,3))=4; 
+        PrimesFlag(p2(:,1))=2; PrimesFlag(p2(:,2))=3; PrimesFlag(p2(:,3))=4;
         primesout=sortrows([p1;p2]);
         txt={'Not primes','Primes','Primes triplets 1st member',...
             'Primes triplets 2nd member','Primes triplets 3rd member'};
         description = {upper('Primes triplets'),'Where (p, p+2, p+6) or (p, p+4, p+6) are all primes.'};
-    case 'Primes quadruplets' 
-        q=repmat(NN(PrimesFlag==1),1,4)+repmat([0 2 6 8],length(NN(PrimesFlag==1)),1); 
+    case 'Primes quadruplets'
+        q=repmat(NN(PrimesFlag==1),1,4)+repmat([0 2 6 8],length(NN(PrimesFlag==1)),1);
         l=isprime(q); p=q(all(l,2),:);
-        PrimesFlag(p(:,1))=2; PrimesFlag(p(:,2))=3; 
-        PrimesFlag(p(:,3))=4; PrimesFlag(p(:,4))=5; 
+        PrimesFlag(p(:,1))=2; PrimesFlag(p(:,2))=3;
+        PrimesFlag(p(:,3))=4; PrimesFlag(p(:,4))=5;
         primesout=p;
         txt={'Not primes','Primes','Primes quadruplets 1st member',...
             'Primes quadruplets 2nd member','Primes quadruplets 3rd member',...
@@ -188,56 +189,56 @@ switch PrimesFamilies{selected}
     case 'Sophie Germain and Safe primes'
         L=length(NN(PrimesFlag==1));
         q=repmat(NN(PrimesFlag==1),1,2).*repmat([1 2],L,1)+repmat([0 1],L,1);
-        p=q(sum(isprime(q),2)==2); PrimesFlag(p)=2; PrimesFlag(2.*p+1)=3; 
-        primesout=[p 2.*p+1]; 
+        p=q(sum(isprime(q),2)==2); PrimesFlag(p)=2; PrimesFlag(2.*p+1)=3;
+        primesout=[p 2.*p+1];
         p=ismember(primesout(:,1),primesout(:,2));
-        PrimesFlag(p)=4; 
+        PrimesFlag(p)=4;
         txt={'Not primes','Primes','Sophie Germain Primes',...
             'Safe primes','Sophie Germain AND Safe Primes'};
         description = {upper('Sophie Germain and Safe primes'),'Sophie Germain primes: Where p and 2p+1 (safe primes) are both primes.',...
             'Safe primes: Where p and (p-1)/2 (Sophie Germain primes) are both primes.'};
     case 'Centered triangular primes'
         q=NN(NN<=max(roots([3 3 2-t]))); p=polyval([3 3 2],q)/2;
-        primesout=p(isprime(p)); PrimesFlag(primesout)=2; 
+        primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Centered triangular primes (3n^2 + 3n + 2)/2'};
         description = {upper('Centered triangular primes'),'A centered triangular number is a centered figurate number that represents a triangle with a dot in the center and all other dots surrounding the center in successive triangular layers.',...
             'The centered triangular number for n is given by the formula (3n^2 + 3n + 2)/2.',...
-        'A centered triangular prime is a centered triangular number that is prime.'};
+            'A centered triangular prime is a centered triangular number that is prime.'};
     case 'Centered square primes'
         q=NN(NN<=max(roots([2 2 1-t]))); p=polyval([2 2 1],q);
-        primesout=p(isprime(p)); PrimesFlag(primesout)=2; 
+        primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Centered square primes (2n^2 + 2n + 1)'};
         description = {upper('Centered square primes'),'A centered square number is a centered figurate number that represents a square with a dot in the center and all other dots surrounding the center in successive squared layers.',...
             'The centered square number for n is given by the formula (2n^2 + 2n + 1).',...
-        'A centered square prime is a centered triangular number that is prime.'};
+            'A centered square prime is a centered triangular number that is prime.'};
     case 'Star primes'
         q=NN(NN<=max(roots([6 -6 1-t]))); p=polyval([6 -6 1],q);
-        primesout=p(isprime(p)); PrimesFlag(primesout)=2; 
+        primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Star primes (6n^2 - 6n + 1)'};
         description = {upper('Star primes'),'A star number is a centered figurate number that represents a centered hexagram (six-pointed star), such as the one that Chinese checkers is played on.',...
             'The star number for n is given by the formula (6n^2 - 6n + 1).',...
-        'A star prime is a star number that is prime.'};
+            'A star prime is a star number that is prime.'};
     case 'Centered hexagonal primes'
         q=NN(NN<=max(roots([3 3 1-t]))); p=polyval([3 3 1],q);
-        primesout=p(isprime(p)); PrimesFlag(primesout)=2; 
+        primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Centered Hexagonal (or Cuban) primes (3n^2 + 3n + 1)'};
         description = {upper('Centered Hexagonal primes'),'A centered hexagonal number is a centered figurate number that represents a hexagon with a dot in the center and all other dots surrounding the center in successive hexagonal layers.',...
             'The centered hexagonal number for n is given by the formula (3n^2 + 3n + 1).',...
-        'A centered hexagonal prime is a centered hexagonal number that is prime.','',...
-        'A cuban prime is a prime number that is a solution to one of two different specific equations involving third powers of x and y. The first of these equations is: p = {x^3 - y^3}/{x - y} and x = y + 1, y>0  which simplifies to 3y^2 + 3y + 1.',...
-        'This is exactly the general form of a centered hexagonal number; that is, all of these cuban primes are centered hexagonal.'};
+            'A centered hexagonal prime is a centered hexagonal number that is prime.','',...
+            'A cuban prime is a prime number that is a solution to one of two different specific equations involving third powers of x and y. The first of these equations is: p = {x^3 - y^3}/{x - y} and x = y + 1, y>0  which simplifies to 3y^2 + 3y + 1.',...
+            'This is exactly the general form of a centered hexagonal number; that is, all of these cuban primes are centered hexagonal.'};
     case 'Centered heptagonal primes'
         q=NN(NN<=max(roots([7 7 2-t]))); p=polyval([7 7 2],q)/2;
-        primesout=p(isprime(p)); PrimesFlag(primesout)=2; 
+        primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Centered heptagonal primes (7n^2 + 7n + 2)/2'};
         description = {upper('Centered heptagonal primes'),'A centered heptagonal number is a centered figurate number that represents a heptagon with a dot in the center and all other dots surrounding the center in successive heptagonal layers.',...
             'The centered heptagonal number for n is given by the formula (7n^2 - 7n + 2)/2.',...
-        'A centered heptagonal prime is a centered heptagonal number that is prime.'};
+            'A centered heptagonal prime is a centered heptagonal number that is prime.'};
     case 'Centered decagonal primes'
         %A centered decagonal number is a centered figurate number that
         %represents a decagon with a dot in the center and all other dots
@@ -245,13 +246,13 @@ switch PrimesFamilies{selected}
         %decagonal number for n is given by the formula 5(n^2-n)+1.
         %A centered decagonal prime is a centered heptagonal number that is prime.
         q=NN(NN<=max(roots([5 -5 1-t]))); p=polyval([5 -5 1],q);
-        primesout=p(isprime(p)); PrimesFlag(primesout)=2; 
+        primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Centered decagonal primes (5n^2 - 5n + 1)'};
         description = {upper('Centered decagonal primes'),'A centered decagonal number is a centered figurate number that represents a decagon with a dot in the center and all other dots surrounding the center in successive decagonal layers.',...
             'The centered decagonal number for n is given by the formula 5n^2 - 5n + 1.',...
-        'A centered decagonal prime is a centered decagonal number that is prime.'};
-     case 'Polygonal primes'
+            'A centered decagonal prime is a centered decagonal number that is prime.'};
+    case 'Polygonal primes'
         s=str2double(cell2mat(inputdlg('Choose the number of the sides of the polygon')));
         q=floor(realsqrt(8*(s-2)*t+(s-4)^2)+(s-4))/(2*(s-2));
         x=2:1:q; p=(x.^2.*(s-2)-x.*(s-4))./2;
@@ -284,7 +285,7 @@ switch PrimesFamilies{selected}
             'Palindromic primes'};
         description = {upper('Palindromic primes'),'Primes that remain the same when their decimal digits are read backwards.'};
     case 'Super primes'
-        a=1:1:sum(PrimesFlag); 
+        a=1:1:sum(PrimesFlag);
         pns=NN(PrimesFlag==1);
         primesout=pns(isprime(a)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
@@ -306,15 +307,49 @@ switch PrimesFamilies{selected}
         txt={'Not primes','Primes',...
             'Lucky primes'};
         description = {upper('Lucky primes'),'In number theory, a lucky number is a natural number in a set which is generated by a certain "sieve". This sieve is similar to the Sieve of Eratosthenes that generates the primes, but it eliminates numbers based on their position in the remaining set, instead of their value (or position in the initial set of natural numbers).',...
-'Begin with a list of integers starting with 1:',...
-'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21...',...
-'Every second number (all even numbers) in the remaining list is eliminated, leaving only the odd integers:',...
-'1,3,5,7,9,11,13,15,17,19,21,23,25...',...
-'The second term in this sequence is 3. Starting with 5, every third number which remains in the list is eliminated:',...
-'1,3,7,9,13,15,19,21,25...',...
-'The next surviving number is now 7, so every seventh number that remains is eliminated:',...
-'1,3,7,9,13,15,21,25...',...
-'When this procedure has been carried out completely, the survivors are the lucky numbers. A lucky prime is a lucky number that is prime.'};
+            'Begin with a list of integers starting with 1:',...
+            '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21...',...
+            'Every second number (all even numbers) in the remaining list is eliminated, leaving only the odd integers:',...
+            '1,3,5,7,9,11,13,15,17,19,21,23,25...',...
+            'The second term in this sequence is 3. Starting with 5, every third number which remains in the list is eliminated:',...
+            '1,3,7,9,13,15,19,21,25...',...
+            'The next surviving number is now 7, so every seventh number that remains is eliminated:',...
+            '1,3,7,9,13,15,21,25...',...
+            'When this procedure has been carried out completely, the survivors are the lucky numbers. A lucky prime is a lucky number that is prime.'};
+    case 'Happy primes'
+        pns=NN(isprime(NN));
+        k=floor(log10(max(pns)));
+        out1=sort([10.^(1:1:k)+3 10.^(1:1:k)+9]);
+        out2=out1(isprime(out1));
+        PrimesFlag(ismember(NN,out2))=2;
+        pns(ismember(pns,out2))=[];
+        clear k out1 out2
+        looping=[4 16 20 37 42 58 89 145];
+        while length(pns)>=1
+            a=pns(1); flag=0; happy=0; seq=a;
+            while ~flag && ~happy
+                b=digitsum(a,2); seq(end+1)=b;
+                if ismember(b,looping)
+                    flag=1;
+                    %all primes in this sequence will be unhappy and so
+                    %don't test them
+                    pns(ismember(pns,seq(isprime(seq))))=[];
+                elseif b==1
+                    happy=1;
+                    %all primes in this sequence will be happy and so don't
+                    %test them
+                    PrimesFlag(ismember(NN,seq(isprime(seq))))=2;
+                    pns(ismember(pns,seq(isprime(seq))))=[];
+                else
+                    a=b;
+                end
+            end
+        end
+        primesout=NN(PrimesFlag==2);
+        clear a b happy flag
+        txt={'Not primes','Primes',...
+            'Happy Primes'};
+        description = {upper('Happy primes'),'A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number either equals 1 (where it will stay), or it loops endlessly in a cycle that does not include 1. Those numbers for which this process ends in 1 are happy numbers, while those that do not end in 1 are unhappy numbers (or sad numbers). If a number is happy, then all members of its sequence are happy; if a number is unhappy, all members of the sequence are unhappy.'};
     case 'Pythagorean primes (amenable primes)'
         q=0:1:floor((t-1)/4); p=4.*q+1;
         primesout=p(isprime(p)); PrimesFlag(primesout)=2;
@@ -460,7 +495,7 @@ switch PrimesFamilies{selected}
         txt={'Not primes','Primes',...
             'Padovan primes'};
         description = {upper('Padovan primes'),'Primes in the Padovan sequence P(0) = P(1) = P(2) = 1, P(n) = P(n-2) + P(n-3).'};
-     case 'Pell primes'
+    case 'Pell primes'
         f=NaN(1,t); f0=0; f1=1; f([1 2])=[0 1]; I=3;
         while f1<=t
             f(I)=f0+2*f1;
@@ -481,14 +516,14 @@ switch PrimesFamilies{selected}
         txt={'Not primes','Primes',...
             'Perrin primes'};
         description = {upper('Perrin primes'),'Primes in the Perrin sequence P(0) = 3, P(1) = 0, P(2) = 2, P(n) = P(n-2) + P(n-3).'};
-     case 'Primes n^4+1'
+    case 'Primes n^4+1'
         %Primes of the form n^4 + 1
-        q=0:1:floor(sqrt(sqrt(t-1))); p=q.^4+1; 
+        q=0:1:floor(sqrt(sqrt(t-1))); p=q.^4+1;
         primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Primes n^4 + 1'};
         description = {'Primes in the form p=n^4 + 1'};
-     case 'Chen primes'
+    case 'Chen primes'
         pns=NN(PrimesFlag==1);
         Idx=zeros(1,sum(PrimesFlag));
         for I=1:sum(PrimesFlag)
@@ -504,13 +539,13 @@ switch PrimesFamilies{selected}
             'Supersingular primes'};
         description = {upper('Supersingular primes'),'In the mathematical branch of moonshine theory, a supersingular prime is a prime divisor of the order of the Monster group M, the largest of the sporadic simple groups. There are precisely 15 supersingular primes: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 41, 47, 59, and 71 and all of them also are Chen primes.'};
     case 'Thabit primes (3*2^n + 1)'
-        q=0:1:floor(log2((t-1)/3)); p=3.*2.^q+1; 
+        q=0:1:floor(log2((t-1)/3)); p=3.*2.^q+1;
         primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Thabit primes (3*2^n + 1)'};
         description = {'THABIT PRIMES (3*2^n + 1)','In number theory, a Thabit number, Thabit ibn Kurrah number, or 321 number is an integer of the form 3*(2^n)+1 for a non-negative integer n.'};
     case 'Thabit primes (3*2^n - 1)'
-        q=0:1:floor(log2((t+1)/3)); p=3.*2.^q-1; 
+        q=0:1:floor(log2((t+1)/3)); p=3.*2.^q-1;
         primesout=p(isprime(p)); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Thabit primes (3*2^n - 1)'};
@@ -518,7 +553,7 @@ switch PrimesFamilies{selected}
     case 'Quartan primes'
         [a,b]=meshgrid(1:1:floor((t)^(1/4)));
         z=a.^4+b.^4;
-        p=unique(z(isprime(z))); 
+        p=unique(z(isprime(z)));
         primesout=p(p<=t); PrimesFlag(primesout)=2;
         txt={'Not primes','Primes',...
             'Quartan primes (x^4+y^4)'};
@@ -622,7 +657,7 @@ switch PrimesFamilies{selected}
             q=num2str(pns(I));
             if isempty(regexp(q,'[34679]','once'))
                 ud=fliplr(q); %upside down
-                if isprime(str2double(ud)) 
+                if isprime(str2double(ud))
                     mirrored=q;
                     I2=regexp(mirrored,'[2]');
                     I5=regexp(mirrored,'[5]');
@@ -769,7 +804,7 @@ axis square
 set(findobj(hFig1, 'type','axes'),'Xcolor','w','Ycolor','w')
 
 [T, ~] = getframe(hFig1);
-xsum=sum(sum(T,3)); 
+xsum=sum(sum(T,3));
 %xsum will be equal to max(xsum) wherever there is a blank column in
 %   the image (rgb white is [255,255,255]). The left edge for the
 %   cropped image is found by looking for the first column in which
@@ -800,7 +835,7 @@ switch s
         phi=(1+sqrt(5))/2;
         theta=rho.^2.*((2*pi)/(phi^2));
     case 'Archimede'
-        rho=1:0.1:(t+9)/10; 
+        rho=1:0.1:(t+9)/10;
         theta=(rho.*2*pi)+pi/5;
 end
 [x,y]=pol2cart(theta, rho);

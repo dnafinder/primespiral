@@ -1,28 +1,80 @@
-# primespiral
-Play into the world of prime numbers! <br/>
-Primespiral is a function to explore the distribution of prime numbers 
-arranged into a spiral pattern. 
-The well-known Ulam spiral and the variant developed by Robert Sacks, 
-the Sacks spiral, show interesting geometric patterns in the positions of primes.
+[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=dnafinder/primespiral&file=primespiral.m)
 
-Syntax: primesout=primespiral(t)
+## 📘 Overview
+primespiral is an interactive MATLAB function for exploring the distribution of prime numbers arranged into spiral patterns.  
+It brings together several classic integer-spiral visualizations and allows highlighting many well-known prime families within a chosen range.
 
-    Inputs:
-          t - is an integer number. The spiral will be plotted between 0 and t
-              If t is omitted, it will be set to 3571 (between 0 and 3571
-              there are 500 prime numbers).
-    Outputs:
-          primesout - the primes of the choosed family, between 0 and t.
+The function is interactive by default (dialog-driven selection of spiral and family).  
+It also supports an optional parametric mode for scripted use when inputs are provided.
 
-The function will ask if you want to use the Ulam, Sacks, Vogel or Archimede spiral.
-Then it will ask if you want to highlight a particular prime family.
+## ✨ Features
+- Four supported spiral layouts:
+  - Ulam spiral
+  - Sacks spiral
+  - Vogel spiral
+  - Archimede spiral
+- Interactive selection of:
+  - spiral type
+  - prime family
+- Optional parametric (non-UI) usage for reproducible scripts
+- Dozens of classic and special prime families in one visual explorer
+- Explicit plain-text in-code definitions for each prime family
+- UI-oriented Cancel handling to avoid hard errors
+- Minor adjustments aimed at keeping the visualization responsive for larger ranges
 
-    Outputs: 
-          The primes of the family you choosed between 0 and t
+## 🧩 Selection Logic
+- The option “Primes and Sacks axes” is available only when the Sacks spiral is selected.
+- In interactive mode, very large ranges on the Archimede spiral can reduce readability; the function may suggest scaling down for clarity.
 
-          Created by Giuseppe Cardillo
-          giuseppe.cardillo-edta@poste.it
+## 📥 Installation
+1. Download or clone the repository:
+   https://github.com/dnafinder/primespiral
 
-To cite this file, this would be an appropriate format:
-Cardillo G. (2014) Primespiral: Play into the world of prime numbers!
-http://www.mathworks.com/matlabcentral/fileexchange/46025
+2. Add the folder to your MATLAB path:
+   addpath('path_to_primespiral')
+
+3. Ensure the main file is present:
+   - primespiral.m
+
+## ⚙️ Requirements
+- MATLAB (any recent version with basic graphics support)
+
+## 🚀 Usage
+Interactive mode (default):
+
+   primespiral
+
+You will be prompted to:
+1. Select a spiral.
+2. Select a prime family.
+3. View the spiral with the selected family highlighted.
+
+Parametric mode (examples):
+
+   primesout = primespiral(3571,'Spiral','Ulam','Family','Only Primes');
+
+   primesout = primespiral(10000,'Spiral','Sacks','Family','Twin primes','Interactive',false);
+
+## 🖼️ Screenshot
+![primespiral example](primespiral.jpg)
+
+## 🧠 Notes
+- The explorer is designed to stay faithful to a compact, visual, “quick and dirty” spirit while improving robustness and documentation.
+- Some families are implemented via known finite lists or small-range constructions (for example, Genocchi prime reduces to the single value 17 within range).
+- For Bell primes, the description is:
+  Bell numbers that are prime (small range).
+
+## 🧾 Citation
+If you use primespiral in research, teaching, or publications, please cite:
+
+Cardillo G. (2014–2025). Primespiral: Play into the world of prime numbers!  
+Available at: https://github.com/dnafinder/primespiral
+
+## 👤 Author
+Giuseppe Cardillo  
+Email: giuseppe.cardillo.75@gmail.com  
+GitHub: https://github.com/dnafinder
+
+## 📄 License
+The code is provided as-is, without any explicit warranty.  
+Please refer to the repository for licensing details if a LICENSE file is present.

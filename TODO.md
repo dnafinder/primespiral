@@ -14,9 +14,6 @@ generate formula candidates -> keep <= t -> isprime.
 
 They are fast, short to implement, and great for interactive visualization.
 
-- Factorial primes  
-  Candidates of the form n! - 1 and/or n! + 1 within range.
-
 - Pierpont primes  
   Numbers of the form 2^a * 3^b + 1 within range.
 
@@ -90,7 +87,6 @@ nature of primespiral unless implemented as very small-range lists.
 ### 🧩 Milestone A (Fast, High Visual Value)
 Add the easiest formula-based families first:
 
-- Factorial primes  
 - Pierpont primes  
 - Strong primes
 

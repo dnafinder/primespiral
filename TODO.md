@@ -4,6 +4,8 @@ This roadmap lists candidate prime families that are currently missing or only p
 
 The goal is to expand the explorer without breaking its “quick and dirty” visual spirit, while keeping the code readable, heavily commented, and UI-friendly.
 
+https://en.wikipedia.org/wiki/List_of_prime_numbers
+
 ---
 
 ## 🟢 Level 1 — Easy / Formula-Based

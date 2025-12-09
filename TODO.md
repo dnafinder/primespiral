@@ -4,17 +4,6 @@ This roadmap lists candidate prime families that are currently missing or only p
 
 The goal is to expand the explorer without breaking its “quick and dirty” visual spirit, while keeping the code readable, heavily commented, and UI-friendly.
 
-### ✅ Design Rule (the non-negotiables)
-Every new family should include:
-
-1) A plain-text definition in the case block (no LaTeX).
-2) A clear way to generate candidate numbers <= t.
-3) A simple isprime filter.
-4) Clean empty-output handling.
-5) No initialized-but-unused variables.
-6) No %#ok<NBRAK>.
-7) If the family is rare or theory-heavy, a short known list is acceptable, but must be stated explicitly.
-
 ---
 
 ## 🟢 Level 1 — Easy / Formula-Based
@@ -25,9 +14,6 @@ They are fast, short to implement, and great for interactive visualization.
 
 - Factorial primes  
   Candidates of the form n! - 1 and/or n! + 1 within range.
-
-- Repunit primes  
-  Base-10 repunits: 11, 111, 1111, ... within range.
 
 - Pierpont primes  
   Numbers of the form 2^a * 3^b + 1 within range.
@@ -103,7 +89,6 @@ nature of primespiral unless implemented as very small-range lists.
 Add the easiest formula-based families first:
 
 - Factorial primes  
-- Repunit primes  
 - Pierpont primes  
 - Strong primes
 

@@ -120,6 +120,7 @@ PrimesFamilies={'Only Primes',...
     'Primorial primes',...
     'Pythagorean primes (amenable primes)',...
     'Quartan primes',...
+    'Repunit primes',...
     'Right truncatable primes',...
     'r-topic primes',...
     'Self primes (Colombian primes)',...
@@ -909,6 +910,30 @@ switch PrimesFamilies{selected}
         txt={'Not primes','Primes','Quartan primes'};
         description={upper('Quartan primes'),...
             'Primes representable as x^4 + y^4.'};
+
+        case 'Repunit primes'
+        % Definition:
+        %   Repunit primes are repunit numbers that are prime.
+        %   A repunit (base 10) is a number made only of digit 1 in decimal:
+        %   1, 11, 111, 1111, ...
+        %   This family highlights those repunits that are prime within 1:t.
+        %
+        digits = floor(log10(t)) + 1;
+        repunits = ones(1, digits);
+
+        for I = 2:digits
+            repunits(I) = repunits(I-1)*10 + 1;
+        end
+
+        repunits = repunits(repunits <= t);
+
+        primesout = repunits(isprime(repunits));
+        PrimesFlag(primesout) = 2;
+
+        txt = {'Not primes','Primes','Repunit primes'};
+        description = {upper('Repunit primes'),...
+            'Repunit primes are base-10 repunit numbers (made only of digit 1) that are prime.'};
+
 
     case 'Right truncatable primes'
         % Definition:

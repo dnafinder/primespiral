@@ -123,6 +123,7 @@ PrimesFamilies={'Only Primes',...
     'Proth primes',...
     'Pythagorean primes (amenable primes)',...
     'Quartan primes',...
+    'Ramanujan primes',...
     'Repunit primes',...
     'Right truncatable primes',...
     'r-topic primes',...
@@ -1122,6 +1123,75 @@ switch PrimesFamilies{selected}
         txt={'Not primes','Primes','Quartan primes'};
         description={upper('Quartan primes'),...
             'Primes representable as x^4 + y^4.'};
+
+        case 'Ramanujan primes'
+        % Definition:
+        %   Ramanujan primes are a sequence of primes R_n defined by a
+        %   prime-counting property.
+        %   R_n is the smallest integer such that for every x >= R_n,
+        %   the number of primes in the interval (x/2, x] is at least n.
+        %   Equivalently:
+        %     pi(x) - pi(x/2) >= n for all x >= R_n.
+        %
+        % Small-range implementation for primespiral:
+        %   This explorer computes a finite-range version within 1:t.
+        %   We evaluate:
+        %     d(x) = pi(x) - pi(floor(x/2))
+        %   then compute the minimum of d(y) for y = x..t.
+        %   For each n, the first x where this suffix-minimum is >= n
+        %   is a candidate R_n within the explored interval.
+        %   We then keep only those candidates that are prime.
+        %
+        % Computational idea:
+        %   Build a prime-counting array pi(x) for x = 1..t,
+        %   derive d(x), compute suffix minima, and extract R_n <= t.
+
+        if t < 2
+            primesout = [];
+        else
+            % Base primality for 1..t
+            basePrime = isprime(1:t);
+
+            % Prime counting function pi(x)
+            piX = cumsum(basePrime);
+
+            % pi(floor(x/2)) with safe indexing at 0
+            halfIdx = floor((1:t)/2);
+            piX0 = [0 piX]; % piX0(k+1) = pi(k)
+            piHalf = piX0(halfIdx + 1);
+
+            % d(x) = pi(x) - pi(floor(x/2))
+            d = piX - piHalf;
+
+            % Suffix minimum of d(x) over x..t
+            dRev = flipud(d(:));
+            sufMinRev = cummin(dRev);
+            sufMin = flipud(sufMinRev);
+
+            % Extract finite-range Ramanujan candidates
+            maxN = max(sufMin);
+            R = zeros(1, maxN);
+
+            for n = 1:maxN
+                idx = find(sufMin >= n, 1, 'first');
+                if isempty(idx)
+                    break
+                end
+                R(n) = idx;
+            end
+
+            R = R(R > 0);
+
+            % Keep only primes among candidates
+            primesout = R(isprime(R));
+        end
+
+        PrimesFlag(primesout) = 2;
+
+        txt = {'Not primes','Primes','Ramanujan primes'};
+        description = {upper('Ramanujan primes'),...
+            'Ramanujan primes are primes R_n defined by the condition that for all x >= R_n the interval (x/2, x] contains at least n primes.',...
+            'This implementation computes a small-range version within 1:t.'};
 
         case 'Repunit primes'
         % Definition:

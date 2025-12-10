@@ -8,17 +8,6 @@ https://en.wikipedia.org/wiki/List_of_prime_numbers
 
 ---
 
-## 🟢 Level 1 — Easy / Formula-Based
-These families are ideal for primespiral because they follow the pattern:
-generate formula candidates -> keep <= t -> isprime.
-
-They are fast, short to implement, and great for interactive visualization.
-
-- Ramanujan primes (small-range implementation)  
-  Defined via prime-counting properties; implement only for small n values supported by t.
-
----
-
 ## 🟡 Level 2 — Medium / Sequence-Driven
 Still compatible with the explorer, but often requires prime-index logic,
 iterative searches, or careful bounds to keep UI smooth.
@@ -78,7 +67,6 @@ nature of primespiral unless implemented as very small-range lists.
 ### 🧩 Milestone B (Moderate Expansion)
 Add families that need careful bounding:
 
-- Ramanujan primes (extended but still range-limited)  
 - Fortunate primes
 
 Consider adding a tiny internal helper pattern:

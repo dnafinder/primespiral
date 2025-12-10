@@ -14,14 +14,8 @@ generate formula candidates -> keep <= t -> isprime.
 
 They are fast, short to implement, and great for interactive visualization.
 
-- Pierpont primes  
-  Numbers of the form 2^a * 3^b + 1 within range.
-
 - Proth primes  
   Numbers of the form k*2^n + 1 with k odd and k < 2^n (range-limited generator).
-
-- Strong primes  
-  Primes p such that p > (previous prime + next prime)/2.
 
 - Ramanujan primes (small-range implementation)  
   Defined via prime-counting properties; implement only for small n values supported by t.
@@ -83,16 +77,6 @@ nature of primespiral unless implemented as very small-range lists.
 ---
 
 ## 🧱 Suggested Milestones
-
-### 🧩 Milestone A (Fast, High Visual Value)
-Add the easiest formula-based families first:
-
-- Pierpont primes  
-- Strong primes
-
-Minimal impact on structure, maximal impact on completeness.
-
----
 
 ### 🧩 Milestone B (Moderate Expansion)
 Add families that need careful bounding:

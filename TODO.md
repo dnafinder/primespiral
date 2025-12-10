@@ -14,9 +14,6 @@ generate formula candidates -> keep <= t -> isprime.
 
 They are fast, short to implement, and great for interactive visualization.
 
-- Proth primes  
-  Numbers of the form k*2^n + 1 with k odd and k < 2^n (range-limited generator).
-
 - Ramanujan primes (small-range implementation)  
   Defined via prime-counting properties; implement only for small n values supported by t.
 
@@ -81,7 +78,6 @@ nature of primespiral unless implemented as very small-range lists.
 ### 🧩 Milestone B (Moderate Expansion)
 Add families that need careful bounding:
 
-- Proth primes  
 - Ramanujan primes (extended but still range-limited)  
 - Fortunate primes
 

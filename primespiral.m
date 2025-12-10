@@ -120,6 +120,7 @@ PrimesFamilies={'Only Primes',...
     'Primes quadruplets',...
     'Primes triplets',...
     'Primorial primes',...
+    'Proth primes',...
     'Pythagorean primes (amenable primes)',...
     'Quartan primes',...
     'Repunit primes',...
@@ -1049,6 +1050,55 @@ switch PrimesFamilies{selected}
         txt={'Not primes','Primes','Primorial primes (p#-1)','Euclidean primes (p#+1)'};
         description={upper('Primorial primes'),...
             'Primes of the form p# - 1 or p# + 1 within range.'};
+        case 'Proth primes'
+        % Definition:
+        %   Proth primes are prime numbers of the form k*2^n + 1,
+        %   where k is an odd positive integer and k < 2^n.
+        %   This family highlights those Proth numbers that are prime
+        %   within the explored interval 1:t.
+        %
+        % Computational idea:
+        %   For each exponent n such that 2^n <= t-1:
+        %     - compute the maximum allowed k by range and by Proth rule,
+        %     - keep only odd k,
+        %     - generate candidates k*2^n + 1,
+        %     - collect all candidates <= t,
+        %   then test isprime on the union.
+
+        if t < 3
+            primesout = [];
+        else
+            nMax = floor(log2(t-1));
+            candCells = cell(nMax,1);
+
+            for n = 1:nMax
+                twoN = 2^n;
+
+                % Range limit for k from k*2^n + 1 <= t
+                kRangeMax = floor((t-1)/twoN);
+
+                % Proth condition requires k < 2^n
+                kMax = min(twoN-1, kRangeMax);
+
+                if kMax >= 1
+                    kList = 1:2:kMax; % odd k only
+                    candCells{n} = kList .* twoN + 1;
+                else
+                    candCells{n} = [];
+                end
+            end
+
+            candidates = unique([candCells{:}]);
+            candidates = candidates(candidates <= t & candidates > 1);
+
+            primesout = candidates(isprime(candidates));
+        end
+
+        PrimesFlag(primesout) = 2;
+
+        txt = {'Not primes','Primes','Proth primes'};
+        description = {upper('Proth primes'),...
+            'Proth primes are primes of the form k*2^n + 1 with k odd and k < 2^n.'};
 
     case 'Pythagorean primes (amenable primes)'
         % Definition:

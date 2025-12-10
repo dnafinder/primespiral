@@ -8,19 +8,6 @@ https://en.wikipedia.org/wiki/List_of_prime_numbers
 
 ---
 
-## 🟡 Level 2 — Medium / Sequence-Driven
-Still compatible with the explorer, but often requires prime-index logic,
-iterative searches, or careful bounds to keep UI smooth.
-
-- Fortunate primes (range-limited)  
-  Based on primorials p# and the smallest m > 1 such that p# + m is prime.
-  Needs careful handling because outputs can exceed t.
-
-- Extended Proth/Ramanujan implementations  
-  If you decide to scale beyond small-range versions.
-
----
-
 ## 🟠 Level 3 — Hard but Worth It (List-Based)
 These are rare or computationally expensive.
 They fit primespiral best as “list-based families” with honest documentation.
@@ -78,6 +65,7 @@ to keep the long switch readable.
 ### 🧩 Milestone C (Rare Families Pack)
 Add list-based families with explicit honesty in comments:
 
+- Fortunate primes
 - Wilson primes  
 - Wieferich primes  
 - Wagstaff primes  

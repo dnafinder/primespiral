@@ -114,6 +114,7 @@ PrimesFamilies={'Only Primes',...
     'Palindromic primes',...
     'Pell primes',...
     'Perrin primes',...
+    'Pierpont primes',...
     'Polygonal primes',...
     'Primes n^4+1',...
     'Primes quadruplets',...
@@ -129,6 +130,7 @@ PrimesFamilies={'Only Primes',...
     'Smarandache-Wellin primes',...
     'Sophie Germain and Safe primes',...
     'Star primes',...
+    'Strong primes',...
     'Super primes',...
     'Supersingular primes',...
     'Thabit primes (3*2^n + 1)',...
@@ -904,6 +906,67 @@ switch PrimesFamilies{selected}
         description={upper('Perrin primes'),...
             'Primes occurring in the Perrin sequence.'};
 
+    case 'Pierpont primes'
+        % Definition:
+        %   Pierpont primes are primes of the form 2^a * 3^b + 1.
+        %   Some sources also define Pierpont primes of the second kind
+        %   as primes of the form 2^a * 3^b - 1.
+        %   This explorer highlights both subtypes within 1:t.
+        %
+        % Subtypes (color-coded):
+        %   - Pierpont primes (+1): 2^a * 3^b + 1 is prime
+        %   - Pierpont primes (-1): 2^a * 3^b - 1 is prime
+        %
+        % Computational idea:
+        %   Generate all products 2^a * 3^b up to t+1,
+        %   then form candidates +/- 1, keep those within range,
+        %   test isprime, and flag the two subtypes.
+
+        % Powers bounds
+        maxA = floor(log2(t+1));
+        maxB = floor(log(t+1)/log(3));
+
+        pow2 = 2.^(0:maxA);
+        pow3 = 3.^(0:maxB);
+
+        % All products 2^a * 3^b
+        P = pow2(:) * pow3(:).';
+        P = unique(P(:));
+
+        % Candidates of first and second kind
+        plusCand  = P + 1;
+        minusCand = P - 1;
+
+        plusCand  = plusCand(plusCand <= t & plusCand > 1);
+        minusCand = minusCand(minusCand <= t & minusCand > 1);
+
+        plusCand  = unique(plusCand);
+        minusCand = unique(minusCand);
+
+        % Primality filter
+        plusPrimes  = plusCand(isprime(plusCand));
+        minusPrimes = minusCand(isprime(minusCand));
+
+        % Multi-color flagging
+        PrimesFlag(plusPrimes)  = 2;
+        PrimesFlag(minusPrimes) = 3;
+
+        overlap = intersect(plusPrimes, minusPrimes);
+        if ~isempty(overlap)
+            PrimesFlag(overlap) = 4;
+        end
+
+        primesout = unique([plusPrimes; minusPrimes]);
+
+        txt = {'Not primes','Primes',...
+            'Pierpont primes (2^a*3^b + 1)',...
+            'Pierpont primes (2^a*3^b - 1)',...
+            'Members of both'};
+
+        description = {upper('Pierpont primes'),...
+            'Pierpont primes are primes of the form 2^a*3^b + 1.',...
+            'This implementation also highlights the related 2^a*3^b - 1 subtype.'};
+
     case 'Polygonal primes'
         % Definition:
         %   Polygonal primes are polygonal numbers with s sides that are prime.
@@ -1161,6 +1224,35 @@ switch PrimesFamilies{selected}
         txt={'Not primes','Primes','Star primes'};
         description={upper('Star primes'),...
             'Star numbers that are prime.'};
+    
+    case 'Strong primes'
+        % Definition:
+        %   Strong primes are primes that are greater than the arithmetic mean
+        %   of the nearest prime before and the nearest prime after them.
+        %   In other words, if p(i-1), p(i), p(i+1) are consecutive primes,
+        %   then p(i) is strong if:
+        %     p(i) > (p(i-1) + p(i+1)) / 2.
+        %
+        % Computational idea:
+        %   Use the ordered list of primes up to t.
+        %   Test the inequality for each internal prime (excluding endpoints).
+
+        if numel(pns) < 3
+            primesout = [];
+        else
+            prevp = pns(1:end-2);
+            currp = pns(2:end-1);
+            nextp = pns(3:end);
+
+            strongIdx = currp > (prevp + nextp)/2;
+            primesout = currp(strongIdx);
+        end
+
+        PrimesFlag(primesout) = 2;
+
+        txt = {'Not primes','Primes','Strong primes'};
+        description = {upper('Strong primes'),...
+            'Strong primes are primes larger than the arithmetic mean of their neighboring primes.'};
 
     case 'Super primes'
         % Definition:

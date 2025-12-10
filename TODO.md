@@ -8,6 +8,24 @@ https://en.wikipedia.org/wiki/List_of_prime_numbers
 
 ---
 
+## 🟡 Level 2 — Medium / Sequence-Driven
+Still compatible with the explorer, but often requires prime-index logic,
+iterative searches, or careful bounds to keep UI smooth.
+
+- Leyland primes  
+  Can be generated with small bounded pairs (x,y) where x^y + y^x <= t.
+
+- Long primes / Full reptend primes (base 10)  
+  Requires multiplicative order calculations; reasonable for moderate t.
+
+- Home primes (small range)  
+  Iterative factorization-and-concatenation process; keep range-limited.
+
+- Extended Proth/Ramanujan implementations  
+  If you decide to scale beyond the current small-range versions.
+
+---
+
 ## 🟠 Level 3 — Hard but Worth It (List-Based)
 These are rare or computationally expensive.
 They fit primespiral best as “list-based families” with honest documentation.
@@ -15,13 +33,18 @@ They fit primespiral best as “list-based families” with honest documentation
 The pattern here is:
 use short known lists -> filter <= t -> explain clearly in comments.
 
+- Fortunate primes  
+  Computational definition is elegant but quickly becomes UI-hostile due to
+  primorial growth and primality testing on huge p# + m values.
+
 - Wilson primes  
 - Wieferich primes  
 - Wagstaff primes  
 - Wolstenholme primes  
 - Other similarly rare named families
 
-This approach preserves the educational/visual value without turning the file into a research-grade number theory library.
+This approach preserves the educational/visual value without turning the file into
+a research-grade number theory library.
 
 ---
 
@@ -44,6 +67,9 @@ nature of primespiral unless implemented as very small-range lists.
 - Permutable primes  
   Can be combinatorially expensive.
 
+- Prime clusters / constellations (if added)  
+  Definition-choice sensitive and can require heavier pattern management.
+
 - Pi primes  
   More recreational/constant-digit dependent than family-driven.
 
@@ -51,10 +77,21 @@ nature of primespiral unless implemented as very small-range lists.
 
 ## 🧱 Suggested Milestones
 
+### 🧩 Milestone B (Wikipedia Coverage Boost)
+Add computable missing families that still preserve UI smoothness:
+
+- Leyland primes  
+- Long primes / Full reptend primes (base 10)  
+- Home primes (small range)
+
+Consider adding a tiny internal helper pattern:
+generateCandidates_FamilyName(t, pns)
+to keep the long switch readable.
+
 ### 🧩 Milestone C (Rare Families Pack)
 Add list-based families with explicit honesty in comments:
 
-- Fortunate primes
+- Fortunate primes  
 - Wilson primes  
 - Wieferich primes  
 - Wagstaff primes  
@@ -68,6 +105,7 @@ Add list-based families with explicit honesty in comments:
 - Text descriptions must be explicit plain English (or plain text) definitions.
 - The code should remain heavily commented, family by family.
 - The function should remain smooth and readable for typical t values used in exploration.
+- When a family is list-based, state it explicitly in the case comment.
 
 ---
 

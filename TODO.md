@@ -51,17 +51,6 @@ nature of primespiral unless implemented as very small-range lists.
 
 ## 🧱 Suggested Milestones
 
-### 🧩 Milestone B (Moderate Expansion)
-Add families that need careful bounding:
-
-- Fortunate primes
-
-Consider adding a tiny internal helper pattern:
-generateCandidates_FamilyName(t, pns)
-to keep the long switch readable.
-
----
-
 ### 🧩 Milestone C (Rare Families Pack)
 Add list-based families with explicit honesty in comments:
 
